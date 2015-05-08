@@ -4,10 +4,10 @@ public class Parameters {
 	
 	private String name;
 	private String lastName;
-	private int age;
-	private boolean isMarried;
+	private Integer age;
+	private Boolean isMarried;
 	
-	public Parameters(String name,String lastName,int age,boolean isMarried){
+	public Parameters(String name,String lastName,Integer age,Boolean isMarried){
 		this.name=name;
 		this.lastName=lastName;
 		this.age=age;
@@ -20,10 +20,10 @@ public class Parameters {
 	public String getLastName(){
 		return this.lastName;
 	}
-	public int getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
-	public boolean isMarried(){
+	public Boolean isMarried(){
 		return this.isMarried;
 	}
 }
