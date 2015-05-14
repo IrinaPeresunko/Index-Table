@@ -1,71 +1,139 @@
 package indexTableSimpleRealization;
 
-public class IndexTable {
-	static int n;
-	static int id;
-	int countOfParameters=4;
-	int countOfIDs=10;
-	int[][] arrayOfID;
-	Object[][] keyWord;
+import java.util.Arrays;
+
+class IndexTable {
+
+	private IndexesOfTag[] tags;
+	private int countOfTag = 10;
+	private int N;
+	private int id;
 	
 	public IndexTable(){
-		this.n=0;
-		this.id=0;
-		arrayOfID = new int[countOfIDs][countOfIDs];
-		keyWord = new Object[countOfIDs][1];
+		this.tags = new IndexesOfTag[countOfTag];
+		this.N=0;
+		this.id = 1;
 	}
-//	private void rebuilding(){
-//		
-//	}
-	private int addParameters(Parameters parameters, int i){
-		int countOfAddedParameters=0;
-		boolean[] isAlreadyExist=new boolean[countOfParameters];
-		int n=0;
-		int j=i;
-		while(j!=-1 && n!=0){
-			if(parameters.getName().equals(keyWord[j][1]) && parameters.getName()!=null ){
-				isAlreadyExist[n] = true;
-			}
-			if(parameters.getLastName().equals(keyWord[j][1]) && parameters.getLastName()!=null ){
-				isAlreadyExist[n+1] = true;
-			}
-			if(parameters.getAge().equals(keyWord[j][1]) && parameters.getAge()!=null ){
-				isAlreadyExist[n+2] = true;
-			}
-			if(parameters.isMarried().equals(keyWord[j][1]) && parameters.isMarried()!=null ){
-				isAlreadyExist[n+3] = true;
-			}
-			j--;
+	private class IndexesOfTag{
+		private String tag;
+		private int[] ids;
+		private int countOfIndexes = 5;
+		private int i;
+		
+		public IndexesOfTag(String tag, int id){
+			this.tag = tag;
+			ids = new int[countOfIndexes];
+			i=0;
+			fillArrayOfIndexesForTag(id);
 		}
-		j=0;
-			if(isAlreadyExist[j]!=true){
-				keyWord[j][1] = parameters.getName();
-				countOfAddedParameters++;
+		public boolean isIdAlreadyExist(int id){
+			int length = 0;
+			while(length<i){
+				if(id == this.ids[length]){
+					return true;
+				}
+				else length++;
 			}
-			if(isAlreadyExist[j]!=true){
-				keyWord[j+1][1] = parameters.getLastName();
-				countOfAddedParameters++;
+			return false;
+		}
+		private void fillArrayOfIndexesForTag(int id){
+			if(isIdAlreadyExist(id)!=true){
+				this.ids[i] = id;
+				i++;
 			}
-			if(isAlreadyExist[j]!=true){
-				keyWord[j+2][1] = parameters.getAge();
-				countOfAddedParameters++;
-			}
-			if(isAlreadyExist[j]!=true){
-				keyWord[j+3][1] = parameters.isMarried();
-				countOfAddedParameters++;
-			}
-			
-		return countOfAddedParameters;
+			else return;
+		}
+		public String getTag(){
+			return this.tag;
+		}
+		public String toString(){
+			return "tag = "+'"'+this.tag+'"' + " : " + Arrays.toString(this.ids);
+		}
 	}
-//	public void add(Parameters parameters){
-//		if(n < ){
-//			addParameters(parameters,0);
-//			n+=4;
-//		}
-//		if(n>=40){
-//			rebuilding();
-//			return;
-//		}
-		
-		
+	public void add(String userInput){
+	String[] input = parsingUserInputString(userInput);
+
+	for(int i=0;i<getCountOfWords(userInput);i++){
+		if(isAlreadyExist(input[i])!=true){
+			tags[N] = new IndexesOfTag(input[i], this.id);
+			N++;
+		}
+		else{
+			int row = getRowForElement(input[i]);
+			tags[row].fillArrayOfIndexesForTag(this.id);
+		}
 	}
+	id++;
+}
+	private int getRowForElement(String element){
+		int length = N-1;
+		int row = -1;
+		while(length>=0 && row!=length){
+			if(element.equals(tags[length].getTag())==true){
+				row = length;
+			}
+			else{
+				length--;
+			}
+		}
+		return row;
+	}
+	private boolean isAlreadyExist(String input){
+		int i=0;
+		
+		while(i<N){
+			if(input.equals(tags[i].getTag())!=true){
+				i++;
+			}
+			else{
+				return true;
+			}
+		}
+		return false;
+	}
+	private int getCountOfWords(String userInput){
+		char[] expression = new char[userInput.length()];
+		int countOfWords=1;
+		
+		for(int i=0;i<userInput.length();i++){
+			expression[i] = userInput.charAt(i);
+			if(expression[i]==','){
+				countOfWords++;
+			}
+		}
+		return countOfWords;
+	}
+	private String[] parsingUserInputString(String userInput){
+		char[] expression = new char[userInput.length()];
+		
+		for(int i=0;i<userInput.length();i++){
+			expression[i] = userInput.charAt(i);
+		}
+		
+		int countOfWords=getCountOfWords(userInput);
+		//System.out.println("countOfWords = "+countOfWords);
+		
+		int[] positionOfSpaces  = new int[countOfWords];
+		for(int i=0,k=0;i<userInput.length() && k<countOfWords;i++){
+			if(expression[i]==','){
+				positionOfSpaces[k]=i;
+				k++;
+			}
+		}
+		positionOfSpaces[countOfWords-1] = expression.length;
+		//System.out.println("positionOfSpaces: "+Arrays.toString(positionOfSpaces));
+		String[] inputTags = new String[countOfWords];
+		int index=0;
+		
+		for(int i=0;i<countOfWords;i++){
+			inputTags[i]=userInput.substring(index, positionOfSpaces[i]);
+			index = positionOfSpaces[i]+1;	
+		}
+		return inputTags;
+	}
+	public void print(){
+		for(int i=0;i<N;i++){
+			System.out.println(tags[i].toString());
+		}	
+	}
+}
