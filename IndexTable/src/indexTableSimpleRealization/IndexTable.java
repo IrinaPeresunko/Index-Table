@@ -6,6 +6,7 @@ class IndexTable {
 
 	private IndexesOfTag[] tags;
 	private int countOfTag = 10;
+	private int countOfIndexes = 5;
 	private int N;
 	private int id;
 	
@@ -17,7 +18,6 @@ class IndexTable {
 	private class IndexesOfTag{
 		private String tag;
 		private int[] ids;
-		private int countOfIndexes = 5;
 		private int i;
 		
 		public IndexesOfTag(String tag, int id){
@@ -84,6 +84,63 @@ class IndexTable {
 			}
 		}
 		id++;
+	}
+	private boolean isElementAlreadyExist(int id,int[] array){
+		int length = 0;
+		while(length<array.length && array[length]!=0){
+			if(id == array[length]){
+				return true;
+			}
+			else length++;
+		}
+		return false;
+	}
+	public void searchIds(String userInput){
+		int[] position = getPositionForTagsInTheString(userInput);
+		
+		int[] output = new int[position.length*countOfIndexes];
+		for(int i=0,k=0;i<position.length;i++){
+			int length = tags[position[i]].ids.length;
+			int j=0; 
+			while(j<length && tags[position[i]].ids[j]!=0 &&
+					isElementAlreadyExist(tags[position[i]].ids[j],output)!=true){
+				output[k] = tags[position[i]].ids[j];
+				k++;j++;
+			}
+		}
+		int j=0;
+		System.out.print("\n"+"Found ids: [");
+		while(output[j]!=0){
+			System.out.print(output[j]+", ");
+			j++;
+		}
+		System.out.print("]");
+	}
+	private int[] getPositionForTagsInTheString(String userInput){
+		String[] input = parsingUserInputString(userInput);
+		int[] position = new int[getCountOfWords(userInput)];
+		for(int i=0;i<getCountOfWords(userInput);i++){
+			position[i] = divideByPart(input[i],0,N-1);
+		}
+		//System.out.println(Arrays.toString(position));
+		return position;
+	}
+	private int divideByPart(String s,int first,int last){
+		if(first>last) return -1;
+		
+		int middle = first + (last-first)/2;
+		if(s.equals(tags[middle])){
+			return middle;
+		}
+		if(s.charAt(0)<tags[middle].getTag().charAt(0)){
+			return divideByPart(s,first,middle-1);
+		}
+		else if(s.charAt(0)>tags[middle].getTag().charAt(0)){
+			return divideByPart(s,middle+1,last);
+		}
+		else{
+			return 0;
+		}
 	}
 	private void recreateArrayOfTags(){
 		IndexesOfTag[] temp = tags;

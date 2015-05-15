@@ -31,5 +31,6 @@ public class IndexTableTest {
 		}
 	    indexTable.add(userInput);
 	    indexTable.print();
+	    indexTable.searchIds(userInput);
 	}
 }
