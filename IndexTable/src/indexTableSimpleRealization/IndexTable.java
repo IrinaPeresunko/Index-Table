@@ -39,9 +39,22 @@ class IndexTable {
 		private void fillArrayOfIndexesForTag(int id){
 			if(isIdAlreadyExist(id)!=true){
 				this.ids[i] = id;
-				i++;
+				if(i<countOfIndexes-1){
+					i++;
+				}
+				else{
+					recreateArrayOfIds();
+					i++;
+				}
 			}
 			else return;
+		}
+		private void recreateArrayOfIds() {
+			int[] temp = ids;
+			ids = new int[countOfIndexes*2];
+			for(int i=0;i<temp.length;i++){
+				ids[i] = temp[i];
+			}
 		}
 		public String getTag(){
 			return this.tag;
@@ -51,21 +64,34 @@ class IndexTable {
 		}
 	}
 	public void add(String userInput){
-	String[] input = parsingUserInputString(userInput);
+		String[] input = parsingUserInputString(userInput);
 
-	for(int i=0;i<getCountOfWords(userInput);i++){
-		if(isTagAlreadyExist(input[i])!=true){
-			tags[N] = new IndexesOfTag(input[i], this.id);
-			orderingItems();
-			N++;
+		for(int i=0;i<getCountOfWords(userInput);i++){
+			if(isTagAlreadyExist(input[i])!=true){
+				tags[N] = new IndexesOfTag(input[i], this.id);
+				orderingItems();
+				if(N<countOfTag-1){
+					N++;
+				}
+				else{
+					recreateArrayOfTags();
+					N++;
+				}
+			}
+			else{
+				int row = getRowForElement(input[i]);
+				tags[row].fillArrayOfIndexesForTag(this.id);
+			}
 		}
-		else{
-			int row = getRowForElement(input[i]);
-			tags[row].fillArrayOfIndexesForTag(this.id);
+		id++;
+	}
+	private void recreateArrayOfTags(){
+		IndexesOfTag[] temp = tags;
+		tags = new IndexesOfTag[countOfTag*2];
+		for(int i=0;i<temp.length;i++){
+			tags[i] = temp[i];
 		}
 	}
-	id++;
-}
 	private int getRowForElement(String element){
 		int length = N-1;
 		int row = -1;
