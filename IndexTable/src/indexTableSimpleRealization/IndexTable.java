@@ -54,8 +54,9 @@ class IndexTable {
 	String[] input = parsingUserInputString(userInput);
 
 	for(int i=0;i<getCountOfWords(userInput);i++){
-		if(isAlreadyExist(input[i])!=true){
+		if(isTagAlreadyExist(input[i])!=true){
 			tags[N] = new IndexesOfTag(input[i], this.id);
+			orderingItems();
 			N++;
 		}
 		else{
@@ -78,7 +79,7 @@ class IndexTable {
 		}
 		return row;
 	}
-	private boolean isAlreadyExist(String input){
+	private boolean isTagAlreadyExist(String input){
 		int i=0;
 		
 		while(i<N){
@@ -90,6 +91,24 @@ class IndexTable {
 			}
 		}
 		return false;
+	}
+	private void orderingItems(){
+		int length = N;
+		int current = N;
+		boolean flag = false;
+		
+		while(length>0 && flag!=true){
+			if(tags[current].getTag().charAt(0)<tags[length-1].getTag().charAt(0)){
+				IndexesOfTag temp = tags[length-1];
+				tags[length-1] = tags[current];
+				tags[current] = temp;
+				current = length-1;
+				length--;
+			}
+			else{
+				flag = true;
+			}
+		}	
 	}
 	private int getCountOfWords(String userInput){
 		char[] expression = new char[userInput.length()];

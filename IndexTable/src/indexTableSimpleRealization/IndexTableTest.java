@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 public class IndexTableTest {
 
 	public static void main(String[] args) {
+		long start=System.nanoTime();
+		
 		IndexTable indexTable = new IndexTable();
 		
 	    indexTable.add("ids,necessary,tags,searching");
@@ -16,6 +18,9 @@ public class IndexTableTest {
 	    
 	    indexTable.print();
 	    
+	    long end=System.nanoTime();
+		System.out.println("time:"+((end-start)/1000000000.0));
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String userInput = null;		
 	    System.out.println("Enter necessary tags for searching ids: "); 
