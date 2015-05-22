@@ -10,9 +10,9 @@ public class IndexTableTest {
 		long start=System.nanoTime();
 		
 		String[] t = {
-				"ids","ids","ids","ids","ids","necessary","necessary","necessary","necessary","necessary","tags","searching","i","love","irka","cry","baby","enter","bla","oye","eee",
+				"ids","necessary","tags","searching",
 				"test","does","it","work","hope","yes","no","a","b","c","d","e","f","the", "london", "of", "middle",
-				"Rosemary", "fell", "was", "not", "exactly", "beautiful", "she", "young", "brilliant", "extremely", "modern",
+				"rosemary", "fell", "was", "not", "exactly", "beautiful", "she", "young", "brilliant", "extremely", "modern",
 				"dressed", "and", "amazingly","promotion", "salary", "trade", "worker", "few", "foods", "people", "feel", 
 				"passionate", "about", "passion", "goes", "beyond", "love","sweetness","candies", "desserts",
 				"peoplecrave", "caramel","whipped", "cream", "different", "true", "chocoholic", "thinking", "evoke",
@@ -22,7 +22,7 @@ public class IndexTableTest {
 				"calamity","prepared","cross-question", "rigidly", "serious", "cost", "hundred", "dollars", "originally", "seemed", "paid", "repairs", "presently", "watchmaker", "old",
 				"acquaintance", "steamboat", "engineer", "other", "good", "engineer", "either", "examined", "parts", "carefully", "delivered", "verdict", "confidence", "manner", 
 				"steam", "monkey"};
-		
+		//System.out.println(t.length);
 		IndexTable indexTable = new IndexTable();
 		
 	    for(int i=0,k=0;i<10000;i++){

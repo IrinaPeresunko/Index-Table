@@ -13,7 +13,7 @@ class IndexTable {
 		this.tags = new IndexesOfTag[countOfTag];
 		this.N=0;
 		this.id = 1;
-		this.countOfTag = 10;
+		//this.countOfTag = 10;
 	}
 	private class IndexesOfTag{
 		private String tag;
@@ -79,17 +79,17 @@ class IndexTable {
 		}
 		return false;
 	}
-	private int calculateCountOfIndexes(int[] position){
-		int countOfIndexes = 0;
+	private int calculateCountOfIds(int[] position){
+		int countOfIds = 0;
 		for(int i=0;i<position.length;i++){
-			countOfIndexes += tags[position[i]].countOfIndexes;
+			countOfIds += tags[position[i]].countOfIndexes;
 		}
-		return countOfIndexes;
+		return countOfIds;
 	}
 	public void searchIds(String userInput){
 		int[] position = getPositionForTagsInTheString(userInput);
 		
-		int countOfIndexes = calculateCountOfIndexes(position);
+		int countOfIndexes = calculateCountOfIds(position);
 		
 		int[] output = new int[position.length*countOfIndexes];
 		for(int i=0,k=0;i<position.length;i++){
@@ -117,21 +117,23 @@ class IndexTable {
 		String[] input = parsingUserInputString(userInput);
 		int[] position = new int[getCountOfWords(userInput)];
 		for(int i=0;i<getCountOfWords(userInput);i++){
-			position[i] = divideByPart(input[i],0,N-1);
+			int row = getRowForElement(input[i]);
+			position[i] = row;
+					//divideByPart(row,0,N-1);
 		}
 		//System.out.println(Arrays.toString(position));
 		return position;
 	}
-	private int divideByPart(String s,int first,int last){
+	private int divideByPart(int positionOfSearchingElement,int first,int last){
 		if(first>last) return -1;
 		
 		int middle = (last+first)/2;
 		
-		if(getRowForElement(s)<middle){
-			return divideByPart(s,first,middle-1);
+		if(positionOfSearchingElement<middle){
+			return divideByPart(positionOfSearchingElement,first,middle-1);
 		}
-		else if(getRowForElement(s)>middle){
-			return divideByPart(s,middle+1,last);
+		else if(positionOfSearchingElement>middle){
+			return divideByPart(positionOfSearchingElement,middle+1,last);
 		}
 		else{
 			return middle;
@@ -178,7 +180,8 @@ class IndexTable {
 		boolean flag = false;
 		
 		while(length>0 && flag!=true){
-			if(tags[current].getTag().charAt(0)<tags[length-1].getTag().charAt(0)){
+			//if(tags[current].getTag().charAt(0)<tags[length-1].getTag().charAt(0)){
+			if(tags[length-1].getTag().compareTo(tags[current].getTag())>0){
 				IndexesOfTag temp = tags[length-1];
 				tags[length-1] = tags[current];
 				tags[current] = temp;
