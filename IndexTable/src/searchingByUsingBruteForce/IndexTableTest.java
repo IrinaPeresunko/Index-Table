@@ -1,4 +1,4 @@
-package indexTableSimpleRealization;
+package searchingByUsingBruteForce;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ public class IndexTableTest {
 	public static void main(String[] args) {
 		long start=System.nanoTime();
 		
-		String[] t = {
+		String[] tags = {
 				"ids","necessary","tags","searching",
 				"test","does","it","work","hope","yes","no","a","b","c","d","e","f","the", "london", "of", "middle",
 				"rosemary", "fell", "was", "not", "exactly", "beautiful", "she", "young", "brilliant", "extremely", "modern",
@@ -25,9 +25,9 @@ public class IndexTableTest {
 		//System.out.println(t.length);
 		IndexTable indexTable = new IndexTable();
 		
-	    for(int i=0,k=0;i<10000;i++){
-	    	indexTable.add(t[k]);
-	    	if(k<t.length-1) k++;
+	    for(int i=0,k=0;i<300;i++){
+	    	indexTable.add(tags[k]);
+	    	if(k<tags.length-1) k++;
 	    	else{
 	    		k=0;
 	    	}

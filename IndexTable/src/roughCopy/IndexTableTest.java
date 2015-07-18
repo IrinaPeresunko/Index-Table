@@ -1,4 +1,4 @@
-package indexTable;
+package roughCopy;
 
 import java.io.BufferedReader;
 import java.io.IOException;

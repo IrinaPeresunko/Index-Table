@@ -1,4 +1,4 @@
-package indexTableSimpleRealization;
+package searchingByUsingBruteForce;
 
 import java.util.Arrays;
 
@@ -124,21 +124,6 @@ class IndexTable {
 		//System.out.println(Arrays.toString(position));
 		return position;
 	}
-	private int divideByPart(int positionOfSearchingElement,int first,int last){
-		if(first>last) return -1;
-		
-		int middle = (last+first)/2;
-		
-		if(positionOfSearchingElement<middle){
-			return divideByPart(positionOfSearchingElement,first,middle-1);
-		}
-		else if(positionOfSearchingElement>middle){
-			return divideByPart(positionOfSearchingElement,middle+1,last);
-		}
-		else{
-			return middle;
-		}
-	}
 	private void recreateArrayOfTags(){
 		IndexesOfTag[] temp = this.tags;
 		this.countOfTag = countOfTag*2;
@@ -150,6 +135,7 @@ class IndexTable {
 	}
 	private int getRowForElement(String element){
 		int length = N-1;
+		//System.out.println("length="+length);
 		int row = -1;
 		while(length>=0 && row!=length){
 			if(element.equals(tags[length].getTag())==true){
