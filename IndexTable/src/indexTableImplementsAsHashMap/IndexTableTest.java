@@ -22,18 +22,20 @@ public class IndexTableTest {
 				"calamity","prepared","cross-question", "rigidly", "serious", "cost", "hundred", "dollars", "originally", "seemed", "paid", "repairs", "presently", "watchmaker", "old",
 				"acquaintance", "steamboat", "engineer", "other", "good", "engineer", "either", "examined", "parts", "carefully", "delivered", "verdict", "confidence", "manner", 
 				"steam", "monkey"};
+//		String[] tags = {"ids","necessary","tags","searching","test","does","it","work","hope","yes","no","a","b","c","d","e","f","the", "london", "of", "middle",
+//			"rosemary", "fell", "was"};
 		//System.out.println(t.length);
 		IndexTable indexTable = new IndexTable();
 		
 	    for(int i=0,k=0;i<300;i++){
-	    	//indexTable.add(tags[k]);
+	    	indexTable.add(tags[k]);
 	    	if(k<tags.length-1) k++;
 	    	else{
 	    		k=0;
 	    	}
 	    }
 	   
-	   // indexTable.print();
+	    indexTable.print();
 	    
 	    long end=System.nanoTime();
 		System.out.println("time:"+((end-start)/1000000000.0));
@@ -47,9 +49,9 @@ public class IndexTableTest {
 			e.printStackTrace();
 		}
 	    start=System.nanoTime();
-	   // indexTable.add(userInput);
-	   // indexTable.print();
-	   // indexTable.searchIds(userInput);
+	    indexTable.add(userInput);
+	    indexTable.print();
+	    indexTable.searchIds(userInput);
 	    end=System.nanoTime();
 		System.out.println("\n"+"time:"+((end-start)/100000000.0));
 	}
